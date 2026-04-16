@@ -1,0 +1,10 @@
+Render settings
+- Root Directory: backend
+- Build Command: npm install
+- Start Command: node src/server.js
+- Environment variable: PUBLIC_BASE_URL=https://YOUR-SERVICE.onrender.com
+
+Notes
+- This backend now stores data under APP_STORAGE_DIR / RENDER_DISK_MOUNT_PATH when provided.
+- On Vercel it falls back to /tmp to avoid the startup crash, but that is still temporary storage.
+- For reliable free persistence long term, move uploads and DB to external services.

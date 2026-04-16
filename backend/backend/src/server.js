@@ -3,16 +3,19 @@ import cors from "cors";
 import multer from "multer";
 import fs from "fs";
 import path from "path";
+import os from "os";
 import { fileURLToPath } from "url";
 import { DatabaseSync } from "node:sqlite";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
-const uploadsDir = path.join(rootDir, "uploads");
-const dataDir = path.join(rootDir, "data");
+const isVercel = Boolean(process.env.VERCEL);
+const runtimeBaseDir = process.env.APP_STORAGE_DIR || process.env.RENDER_DISK_MOUNT_PATH || (isVercel ? path.join(process.env.TMPDIR || os.tmpdir(), "dubsync-runtime") : rootDir);
+const uploadsDir = process.env.UPLOADS_DIR || path.join(runtimeBaseDir, "uploads");
+const dataDir = process.env.DATA_DIR || path.join(runtimeBaseDir, "data");
 const legacyTracksFile = path.join(dataDir, "tracks.json");
-const dbPath = path.join(dataDir, "dubsync.sqlite");
+const dbPath = process.env.SQLITE_DB_PATH || path.join(dataDir, "dubsync.sqlite");
 
 fs.mkdirSync(uploadsDir, { recursive: true });
 fs.mkdirSync(dataDir, { recursive: true });
@@ -486,7 +489,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(uploadsDir));
 
 app.get("/api/health", (_req, res) => {
-  res.json({ ok: true, database: "sqlite", dbPath });
+  res.json({ ok: true, database: "sqlite", dbPath, uploadsDir, runtimeBaseDir, isVercel });
 });
 
 app.get("/api/site-content", (_req, res) => {
@@ -595,8 +598,8 @@ app.post("/admin/tracks/:id/delete", (req, res) => {
     const audioUrl = String(track.audio_url || "");
 
     if (audioUrl.startsWith("/uploads/")) {
-      const relativePath = audioUrl.replace(/^\/+/, "");
-      const filePath = path.join(rootDir, relativePath);
+      const fileName = path.basename(audioUrl);
+      const filePath = path.join(uploadsDir, fileName);
 
       if (fs.existsSync(filePath)) {
         try {
@@ -2067,6 +2070,9 @@ app.get("/admin", (req, res) => {
 </html>`);
 });
 
-app.listen(PORT, () => {
-  console.log(`DUBSYNC backend running on http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`DUBSYNC backend running on port ${PORT}`);
+  console.log(`Storage root: ${runtimeBaseDir}`);
+  console.log(`Uploads dir: ${uploadsDir}`);
+  console.log(`SQLite path: ${dbPath}`);
 });
