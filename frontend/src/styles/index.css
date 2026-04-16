@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.noise-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.editorial-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #262626 #0a0a0a;
+}
+
+.editorial-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.editorial-scrollbar::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.editorial-scrollbar::-webkit-scrollbar-thumb {
+  background: #262626;
+}
+
+.track-row:hover .track-play {
+  opacity: 1;
+}
+
+.hero-flash {
+  display: inline-block;
+  padding-inline: 0.1rem;
+  font-family: 'Arial Narrow', Arial, sans-serif;
+  text-shadow: 0 0 14px rgba(255,255,255,0.35);
+}
+
+.flash-word {
+  animation: wordPulse 0.2s linear infinite;
+}
+
+@keyframes wordPulse {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.94);
+    filter: blur(0.2px) brightness(0.78);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1.4);
+    text-shadow: 0 0 2px rgba(255,255,255,0.55);
+  }
+}
+
+.huge-title {
+  font-size: 3.5rem;
+  line-height: 0.9;
+  letter-spacing: -0.07em;
+  font-weight: 500;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+@media (min-width: 768px) {
+  .huge-title { font-size: 5.8rem; }
+}
+
+@media (min-width: 1024px) {
+  .huge-title { font-size: 7.2rem; }
+}
+
+@media (min-width: 1280px) {
+  .huge-title { font-size: 8.5rem; }
+}
+
+.massive-title {
+  font-size: 3.85rem;
+  line-height: 0.9;
+  letter-spacing: -0.07em;
+  font-weight: 500;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+@media (min-width: 768px) {
+  .massive-title { font-size: 6.4rem; }
+}
+
+@media (min-width: 1024px) {
+  .massive-title { font-size: 8.2rem; }
+}
+
+@media (min-width: 1280px) {
+  .massive-title { font-size: 9.6rem; }
+}
+
+.container-shell {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 0.25rem;
+}
+
+@media (min-width: 768px) {
+  .container-shell {
+    padding-inline: 2rem;
+  }
+}
+
+.field-label {
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.62);
+}
+
+.field-help {
+  margin-top: 0.5rem;
+  color: rgba(255,255,255,0.28);
+  font-size: 13px;
+}
+
+.line-input {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  background: transparent;
+  padding: 0.75rem 0 1rem;
+  font-size: 1.65rem;
+  font-weight: 300;
+  color: white;
+  outline: none;
+}
+
+.line-input::placeholder {
+  color: rgba(255,255,255,0.18);
+}
+
+@media (min-width: 768px) {
+  .line-input {
+    font-size: 1.9rem;
+  }
+}
+
+.primary-outline-button,
+.small-outline-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: white;
+  transition: 0.2s ease;
+}
+
+.primary-outline-button {
+  border: 1px solid rgba(255,255,255,0.45);
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+.small-outline-button {
+  border: 1px solid rgba(255,255,255,0.22);
+  padding: 0.9rem 1.4rem;
+}
+
+.primary-outline-button:hover,
+.small-outline-button:hover {
+  background: white;
+  color: black;
+}
+
+.modal-scrollbar {
+  overflow-y: auto;
+}
+
+.modal-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.18);
+}
+
+textarea,
+input,
+button,
+select {
+  font: inherit;
+}
+
+
+#root {
+  overflow-x: hidden;
+}
+
+.full-bleed {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  position: relative;
+}
+
+.logo-stamp {
+  position: fixed;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  top: 1.8rem;
+  right: 1.8rem;
+  z-index: 60;
+  user-select: none;
+}
+
+.brand-wordmark {
+  text-rendering: geometricPrecision;
+  text-shadow: 0 0 18px rgba(255,255,255,0.08);
+}
+
+.logo-stamp .brand-wordmark {
+  font-size: 1rem;
+}
+
+@media (min-width: 768px) {
+  .logo-stamp .brand-wordmark {
+    font-size: 1.08rem;
+  }
+}
